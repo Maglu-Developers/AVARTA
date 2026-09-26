@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AVĀRTĀ ® — Next Gen Visual Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=transparent_nav_v3">
+  <link rel="stylesheet" href="vertical_gallery/vertical_gallery.css?v=hall_bg_v3">
+  <link rel="stylesheet" href="detail_view/detail_view.css?v=dock_toggles_v9">
+  <link rel="stylesheet" href="components/dock.css?v=dock_toggles_v9">
+  <link rel="stylesheet" href="beyond_the_frame.css?v=beyond_v2_fitscreen">
+  <link rel="stylesheet" href="quiz.css?v=no_scroll_v1">
+  <link rel="stylesheet" href="guess_painting.css?v=guess_v1">
+  <link rel="stylesheet" href="beyond_avarta.css?v=beyond_avarta_v1">
+  <link rel="stylesheet" href="explore_page.css?v=no_scroll_v2">
+  <link rel="stylesheet" href="intro_animation.css?v=peephole_v1">
+  <link rel="preload" as="image" href="assets/intro_hallway.jpg">
+  <link rel="preload" as="image" href="assets/explore_bg.png?v=studio_desk_v1">
+  <link rel="preload" as="image" href="collection_hall_bg.png">
+  <link rel="preload" as="image" href="about_hero.jpg">
+  <link rel="preload" as="image" href="assets/intro_hallway.jpg">
+  <!-- Three.js for bulletproof cross-browser WebGL shader rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+  <!-- ==================== CINEMATIC LUXURY CURTAIN REVEAL ==================== -->
+  <div id="avarta-intro" role="dialog" aria-label="AVĀRTĀ Cinematic Reveal Sequence" aria-modal="true">
+    <!-- Particle & FX Canvas Layer (Dust motes drifting in spotlight beam) -->
+    <canvas id="intro-fx-canvas"></canvas>
+
+    <!-- Phase 1: Heavy Red Velvet Theater Curtain Stage -->
+    <div class="intro-curtain-stage" id="intro-curtain-stage">
+      <div class="curtain-backdrop"></div>
+      <div class="curtain-spotlight" id="curtain-spotlight"></div>
+      <div class="curtain-panel curtain-panel-left" id="curtain-left">
+        <div class="curtain-texture"></div>
+        <div class="curtain-fold-overlay"></div>
+      </div>
+      <div class="curtain-panel curtain-panel-right" id="curtain-right">
+        <div class="curtain-texture"></div>
+        <div class="curtain-fold-overlay"></div>
+      </div>
+      <div class="curtain-valance"></div>
+    </div>
+
+    <!-- Film Grain Overlay -->
+    <div class="intro-film-grain"></div>
+
+    <!-- Skip button -->
+    <button class="intro-skip-btn" id="intro-skip-btn" aria-label="Skip intro animation">
+      Skip Intro &nbsp;›
+    </button>
+  </div>
+
+  <!-- Cinematic Fullscreen Fade-to-Black Route Transition Overlay -->
+  <div id="page-transition" class="page-transition" aria-hidden="true"></div>
+
+  <!-- Radiant Golden Dimensional World Warp Transition Overlay -->
+  <div id="portal-world-warp" class="portal-world-warp" aria-hidden="true"></div>
+
+  <!-- Fullscreen Background WebGL Fluid Canvas (Home Page) -->
+  <canvas id="water-canvas"></canvas>
+
+  <!-- Overlay Vignette & Dark Tint -->
+  <div class="overlay"></div>
+
+  <!-- Persistent Header Navigation Across All Routes -->
+  <header class="navbar" id="site-navbar">
+    <nav class="nav-menu" aria-label="Main Navigation">
+      <a href="#home" class="nav-item active" id="nav-home">Home</a>
+      <a href="#collection" class="nav-item" id="nav-collection">Collection</a>
+      <a href="#about" class="nav-item" id="nav-about">About</a>
+      <a href="#explore" class="nav-item" id="nav-explore">Explore</a>
+    </nav>
+  </header>
+
+  <!-- ==================== 3D EXPLORE GALLERY PAGE VIEW ==================== -->
+  <div id="explore-view" class="page-view" aria-hidden="true">
+    <div class="explore-page-ambient" aria-hidden="true"></div>
+    <div class="explore-page-container">
+      
+      <!-- HEADER -->
+      <header class="explore-page-header">
+        <h1 class="explore-page-title">EXPLORE AVĀRTĀ</h1>
+        <p class="explore-page-tagline">“Spatial thinking used to test clarity and intent before design decisions are locked.”</p>
+      </header>
+
+      <!-- 3D PANORAMIC CURVED SPATIAL STAGE (4 MASTERPIECE CARDS) -->
+      <main class="explore-spatial-stage" aria-label="Interactive Art Experiences">
+        <div class="explore-spatial-track" id="exploreSpatialTrack">
+          
+          <!-- Card 1: Beyond the Frame -->
+          <a href="#beyond-the-frame" class="explore-spatial-card" id="spatial-card-beyond" aria-label="Open Beyond the Frame">
+            <div class="explore-spatial-img-wrapper">
+              <img src="assets/paintings/beyond_the_frame_card.jpg?v=magical_ribbon_v1" alt="Beyond the Frame" class="explore-spatial-img">
+              <div class="explore-spatial-scrim"></div>
+            </div>
+            <div class="explore-spatial-content">
+              <h2 class="explore-spatial-heading">Beyond the Frame</h2>
+              <p class="explore-spatial-desc">Look beyond the canvas and describe iconic masterpieces in your own words.</p>
+              <span class="explore-spatial-action">ENTER EXPERIENCE →</span>
+            </div>
+          </a>
+
+          <!-- Card 2: AVĀRTĀ Art Quiz -->
+          <a href="#quiz" class="explore-spatial-card" id="spatial-card-quiz" aria-label="Open AVĀRTĀ Art Quiz">
+            <div class="explore-spatial-img-wrapper">
+              <img src="assets/paintings/art_quiz_card.jpg?v=magical_quiz_v1" alt="AVĀRTĀ Art Quiz" class="explore-spatial-img">
+              <div class="explore-spatial-scrim"></div>
+            </div>
+            <div class="explore-spatial-content">
+              <h2 class="explore-spatial-heading">AVĀRTĀ Art Quiz</h2>
+              <p class="explore-spatial-desc">Test your knowledge across master artists, movements, and techniques.</p>
+              <span class="explore-spatial-action">TAKE THE QUIZ →</span>
+            </div>
+          </a>
+
+          <!-- Card 3: Paint vs Pretend -->
+          <a href="#guess-painting" class="explore-spatial-card" id="spatial-card-guess" aria-label="Open Paint vs Pretend">
+            <div class="explore-spatial-img-wrapper">
+              <img src="assets/paintings/paint_vs_pretend_card.jpg?v=mona_lisa_scan_v1" alt="Paint vs Pretend" class="explore-spatial-img">
+              <div class="explore-spatial-scrim"></div>
+            </div>
+            <div class="explore-spatial-content">
+              <h2 class="explore-spatial-heading">Paint vs Pretend</h2>
+              <p class="explore-spatial-desc">Spot authentic historical masterpieces versus AI synthesis in a visual perception test.</p>
+              <span class="explore-spatial-action">TEST PERCEPTION →</span>
+            </div>
+          </a>
+
+          <!-- Card 4: Beyond AVĀRTĀ -->
+          <a href="#beyond-avarta" class="explore-spatial-card" id="spatial-card-museums" aria-label="Open Beyond AVĀRTĀ">
+            <div class="explore-spatial-img-wrapper">
+              <img src="assets/paintings/beyond_avarta_card.jpg?v=museum_library_v1" alt="Beyond AVĀRTĀ World Museums" class="explore-spatial-img">
+              <div class="explore-spatial-scrim"></div>
+            </div>
+            <div class="explore-spatial-content">
+              <h2 class="explore-spatial-heading">Beyond AVĀRTĀ</h2>
+              <p class="explore-spatial-desc">Continue your journey through official digital galleries of global institutions.</p>
+              <span class="explore-spatial-action">EXPLORE MUSEUMS →</span>
+            </div>
+          </a>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- ==================== HOME VIEW ==================== -->
+  <div id="home-view" class="page-view active">
+    <main class="hero-container">
+      <div class="hero-content" id="hero-content">
+        <h1 class="hero-wordmark" id="hero-wordmark" aria-label="AVĀRTĀ">
+          <span class="letter-wrap has-accent"><span class="accent-line"></span><span class="letter">A</span></span>
+          <span class="letter-wrap"><span class="letter">V</span></span>
+          <span class="letter-wrap has-accent"><span class="accent-line"></span><span class="letter">A</span></span>
+          <span class="letter-wrap"><span class="letter">R</span></span>
+          <span class="letter-wrap"><span class="letter">T</span></span>
+          <span class="letter-wrap has-accent"><span class="accent-line"></span><span class="letter">A</span></span>
+        </h1>
+        <p class="hero-tagline" id="hero-tagline">Beyond the Frame, Within the Story</p>
+        <a href="categories.html" class="hero-cta" role="button" aria-label="Enter the Gallery">
+          <span class="cta-text">ENTER THE GALLERY</span>
+          <span class="cta-arrow">→</span>
+        </a>
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== COLLECTION VIEW: VERTICAL SLIDE GALLERY ==================== -->
+  <div id="collection-view" class="page-view" aria-hidden="true">
+    <div id="vertical-gallery-mount" style="width: 100%; height: 100%;"></div>
+  </div>
+
+  <!-- ==================== ABOUT VIEW: 3D STACKED-CARD EXPERIENCE ==================== -->
+  <div id="about-view" class="page-view" aria-hidden="true">
+    <!-- 3D Art Gallery Corridor WebGL Canvas -->
+    <canvas id="corridor-canvas"></canvas>
+    <!-- Gallery Chiaroscuro Atmospheric Overlay for Text Legibility -->
+    <div class="corridor-scrim-overlay" aria-hidden="true"></div>
+
+    <!-- Side Progress Indicator (Clean Track & Minimal Ticks) -->
+    <aside class="stack-progress-sidebar" aria-label="Section Navigation">
+      <div class="progress-track-wrapper">
+        <div class="progress-track">
+          <div id="stack-progress-fill" class="progress-fill"></div>
+        </div>
+        <div class="progress-dots-list" role="tablist">
+          <button class="progress-dot active" data-index="0" role="tab" aria-label="Card: Identity"><span class="dot-tooltip">Identity</span></button>
+          <button class="progress-dot" data-index="1" role="tab" aria-label="Card: What Is"><span class="dot-tooltip">What Is</span></button>
+          <button class="progress-dot" data-index="2" role="tab" aria-label="Card: The Idea"><span class="dot-tooltip">The Idea</span></button>
+          <button class="progress-dot" data-index="3" role="tab" aria-label="Card: Purpose"><span class="dot-tooltip">Purpose</span></button>
+          <button class="progress-dot" data-index="4" role="tab" aria-label="Card: Experience"><span class="dot-tooltip">Experience</span></button>
+          <button class="progress-dot" data-index="5" role="tab" aria-label="Card: Difference"><span class="dot-tooltip">Difference</span></button>
+          <button class="progress-dot" data-index="6" role="tab" aria-label="Card: Principle"><span class="dot-tooltip">Principle</span></button>
+          <button class="progress-dot" data-index="7" role="tab" aria-label="Card: The Name"><span class="dot-tooltip">The Name</span></button>
+          <button class="progress-dot" data-index="8" role="tab" aria-label="Card: Vision"><span class="dot-tooltip">Vision</span></button>
+          <button class="progress-dot" data-index="9" role="tab" aria-label="Card: Audience"><span class="dot-tooltip">Audience</span></button>
+          <button class="progress-dot" data-index="10" role="tab" aria-label="Card: Closing"><span class="dot-tooltip">Closing</span></button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Card Stack Container -->
+    <div id="card-stack" class="card-stack">
+
+      <!-- ==================== CARD 0: HERO ==================== -->
+      <section class="stack-card card-hero card-current" data-card="0" id="card-0">
+        <div class="card-bg card-hero-bg"></div>
+        <div class="card-scrim"></div>
+        <!-- Signature Cursor Spotlight following mouse movement -->
+        <div class="hero-cursor-spotlight" id="hero-cursor-spotlight" aria-hidden="true"></div>
+        <div class="card-inner hero-card-inner">
+          <h1 class="card-headline monumental-title">THE STORY BEHIND<br><span class="hero-gold-title">AVĀRTĀ</span></h1>
+          <p class="card-body-lead">
+            AVĀRTĀ is a digital art discovery platform built around a simple belief: a masterpiece is never just an image. Behind every frame lies a story. AVĀRTĀ exists to uncover those stories, reveal what the eye overlooks, and transform the way we experience art.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 1: WHAT IS AVĀRTĀ? ==================== -->
+      <section class="stack-card card-future" data-card="1" id="card-1">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner what-is-card-inner">
+          <div class="card-label-row">
+            <span class="card-numbered-label">WHAT IS AVĀRTĀ?</span>
+          </div>
+          <h2 class="card-subhead what-is-heading">MORE THAN LOOKING. UNDERSTANDING.</h2>
+          <p class="card-body-text what-is-paragraph">
+            AVĀRTĀ is a curated digital sanctuary for art and the stories it carries. It brings together visual exploration, historical context, symbolism, artistic intent, cultural narratives, and interpretation within one immersive experience. Instead of simply presenting a painting, AVĀRTĀ invites you to enter its world.
+          </p>
+          <div class="card-closing-divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-gem">✦</span>
+            <span class="divider-line short"></span>
+          </div>
+          <div class="card-emphasis-stack what-is-emphasis-stack">
+            <span class="emphasis-line">See the artwork.</span>
+            <span class="emphasis-line">Discover its story.</span>
+            <span class="emphasis-line gold-accent">Understand its meaning.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 2: THE IDEA BEHIND AVĀRTĀ ==================== -->
+      <section class="stack-card card-future" data-card="2" id="card-2">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">THE IDEA BEHIND AVĀRTĀ</span>
+          </div>
+          <h2 class="card-subhead">Every Masterpiece Has Another Layer.</h2>
+          <p class="card-body-text">
+            A painting may occupy a single frame, but its story can span centuries. A gesture can carry a hidden meaning. A colour can reveal a belief. A background can preserve an untold event. A seemingly ordinary object can change the entire interpretation of a work.
+          </p>
+          <div class="card-quote-callout">
+            <p class="callout-statement">
+              "AVĀRTĀ was created to uncover these layers. We look beyond what the artwork shows to explore why it exists, what it represents, and what it has witnessed."
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 3: OUR PURPOSE ==================== -->
+      <section class="stack-card card-future" data-card="3" id="card-3">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner wide-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">OUR PURPOSE</span>
+          </div>
+          <h2 class="card-statement">AVĀRTĀ transforms passive viewing into active discovery.</h2>
+          
+          <div class="purpose-grid">
+            <div class="purpose-item">
+              <div class="item-header">
+                <h3 class="item-title">CONTEXT</h3>
+              </div>
+              <p class="item-desc">Understand the historical and cultural world surrounding an artwork.</p>
+            </div>
+            <div class="purpose-item">
+              <div class="item-header">
+                <h3 class="item-title">SYMBOLISM</h3>
+              </div>
+              <p class="item-desc">Decode the details, objects, gestures, colours and visual language hidden within it.</p>
+            </div>
+            <div class="purpose-item">
+              <div class="item-header">
+                <h3 class="item-title">STORY</h3>
+              </div>
+              <p class="item-desc">Discover the people, events, ideas and circumstances behind its creation.</p>
+            </div>
+            <div class="purpose-item">
+              <div class="item-header">
+                <h3 class="item-title">INTERPRETATION</h3>
+              </div>
+              <p class="item-desc">Explore multiple layers of meaning rather than receiving a single conclusion.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 4: THE AVĀRTĀ EXPERIENCE ==================== -->
+      <section class="stack-card card-future" data-card="4" id="card-4">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner wide-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">THE AVĀRTĀ EXPERIENCE</span>
+          </div>
+          <h2 class="card-subhead">FROM IMAGE TO INVESTIGATION</h2>
+
+          <div class="experience-sequence">
+            <div class="seq-step">
+              <h3 class="seq-step-title">ENCOUNTER</h3>
+              <p class="seq-step-desc">Begin with the artwork itself.</p>
+            </div>
+            <div class="seq-step">
+              <h3 class="seq-step-title">OBSERVE</h3>
+              <p class="seq-step-desc">Look closer. Notice what the eye usually overlooks.</p>
+            </div>
+            <div class="seq-step">
+              <h3 class="seq-step-title">INVESTIGATE</h3>
+              <p class="seq-step-desc">Uncover its history, creator, context and hidden details.</p>
+            </div>
+            <div class="seq-step">
+              <h3 class="seq-step-title">DECODE</h3>
+              <p class="seq-step-desc">Explore symbolism, artistic choices and cultural meaning.</p>
+            </div>
+            <div class="seq-step">
+              <h3 class="seq-step-title">DISCOVER</h3>
+              <p class="seq-step-desc">Leave with a deeper understanding of the work—and a different way of seeing it.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 5: WHAT MAKES AVĀRTĀ DIFFERENT? ==================== -->
+      <section class="stack-card card-future" data-card="5" id="card-5">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner different-card-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">WHAT MAKES AVĀRTĀ DIFFERENT?</span>
+          </div>
+          <h2 class="card-subhead different-heading">ART, RECONSTRUCTED AS EXPERIENCE.</h2>
+          <p class="card-body-text different-paragraph">
+            Most digital art experiences stop at the image. AVĀRTĀ begins there. We combine curation, storytelling, contextual research and immersive digital design to create an experience where every artwork becomes a point of exploration. The goal isn't to tell you what to think.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 6: OUR CURATORIAL PRINCIPLE ==================== -->
+      <section class="stack-card card-future" data-card="6" id="card-6">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">OUR CURATORIAL PRINCIPLE</span>
+          </div>
+          <h2 class="card-subhead curatorial-headline">LOOK CLOSER.</h2>
+          <p class="card-body-text">
+            We believe that details deserve attention. AVĀRTĀ approaches every artwork as an investigation. We explore the visible and the overlooked—the celebrated and the obscure, the historical record and the stories hidden between its lines.
+          </p>
+          <p class="card-body-highlight">
+            Because sometimes the most important part of an artwork is the part you almost missed.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 7: THE NAME (STANDOUT MOMENT) ==================== -->
+      <section class="stack-card card-future card-standout" data-card="7" id="card-7">
+        <div class="card-scrim standout-radial"></div>
+        <div class="card-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">THE NAME</span>
+          </div>
+          <h2 class="card-subhead">WHY AVĀRTĀ?</h2>
+          <p class="card-body-text">
+            AVĀRTĀ represents a turning—a shift in perspective. It reflects the idea of looking at something familiar from an unfamiliar angle. A painting may appear to tell one story at first glance. Look again, and another begins to emerge. That change in perspective is at the heart of AVĀRTĀ.
+          </p>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 8: OUR VISION ==================== -->
+      <section class="stack-card card-future" data-card="8" id="card-8">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">OUR VISION</span>
+          </div>
+          <h2 class="card-subhead">A DIGITAL HOME FOR ART'S UNTOLD STORIES</h2>
+          <p class="card-body-text">
+            We envision a world where art is not confined to galleries, textbooks or isolated images. AVĀRTĀ aims to create a living digital space where artworks can be explored, questioned and understood—regardless of where you are or how much you already know about art. We want to make curiosity the starting point.
+          </p>
+          <div class="card-vision-quote">
+            <p class="vision-quote-text">
+              “Because art becomes more powerful when you know the story behind it.”
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 9: WHO IS AVĀRTĀ FOR? ==================== -->
+      <section class="stack-card card-future" data-card="9" id="card-9">
+        <div class="card-scrim subtle-radial"></div>
+        <div class="card-inner wide-inner">
+          <div class="card-label-row">
+            <span class="card-label-text">WHO IS AVĀRTĀ FOR?</span>
+          </div>
+          <h2 class="card-subhead">FOR EVERYONE WHO LOOKS BEYOND</h2>
+
+          <div class="audience-grid">
+            <div class="audience-card">
+              <div class="aud-icon-box">✦</div>
+              <h3 class="aud-title">FOR THE CURIOUS</h3>
+              <p class="aud-desc">For anyone who has ever looked at an artwork and wondered, <em>"What's the story behind this?"</em></p>
+            </div>
+            <div class="audience-card">
+              <div class="aud-icon-box">✦</div>
+              <h3 class="aud-title">FOR THE LEARNER</h3>
+              <p class="aud-desc">For students and enthusiasts who want context beyond a textbook description.</p>
+            </div>
+            <div class="audience-card">
+              <div class="aud-icon-box">✦</div>
+              <h3 class="aud-title">FOR THE OBSERVER</h3>
+              <p class="aud-desc">For people who enjoy discovering details, symbolism and hidden narratives.</p>
+            </div>
+            <div class="audience-card">
+              <div class="aud-icon-box">✦</div>
+              <h3 class="aud-title">FOR THE ART LOVER</h3>
+              <p class="aud-desc">For those who want to experience familiar masterpieces from a different perspective.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== CARD 10: CLOSING (PORTAL GATEWAY) ==================== -->
+      <section class="stack-card card-future card-closing card-standout" data-card="10" id="card-10">
+        <div class="card-inner closing-inner portal-gate-inner">
+          <div class="closing-cta-wrapper gate-toggle-wrapper">
+            <button type="button" class="hero-cta gate-portal-toggle" id="gate-enter-toggle" aria-label="Enter the Gallery">
+              <span class="cta-text">ENTER THE GALLERY</span>
+              <span class="cta-arrow">→</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ==================== BEYOND THE FRAME VIEW ==================== -->
+  <div id="beyond-view" class="page-view" aria-hidden="true">
+    <div class="beyond-ambient-glow" aria-hidden="true"></div>
+    <!-- FIXED TOP-LEFT BACK BUTTON -->
+    <a href="#explore" class="beyond-back-fixed view-back-btn" aria-label="Back to Explore Gallery">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </a>
+    <div class="beyond-container">
+      
+      <!-- HEADER -->
+      <header class="beyond-header">
+        <h1 class="beyond-title">BEYOND THE FRAME</h1>
+        <p class="beyond-tagline">“What do you see beyond the frame?”</p>
+      </header>
+
+      <!-- MAIN INTERACTIVE STAGE (SIDE-BY-SIDE ON DESKTOP, STACKED ON MOBILE) -->
+      <main class="beyond-stage-grid">
+        
+        <!-- PAINTING DISPLAY -->
+        <section class="beyond-painting-card" aria-label="Featured Artwork">
+          <div class="beyond-painting-spotlight" aria-hidden="true"></div>
+          <div class="beyond-artwork-frame">
+            <img src="./assets/paintings/starry_night.jpg" alt="Selected Painting" class="beyond-artwork-img" id="beyondArtworkImg">
+          </div>
+          <div class="beyond-artwork-controls">
+            <div class="beyond-artwork-info">
+              <h2 class="beyond-artwork-title" id="beyondArtworkTitle">The Starry Night</h2>
+              <span class="beyond-artwork-meta" id="beyondArtworkMeta">Vincent van Gogh • 1889 • Post-Impressionism</span>
+            </div>
+            <div class="beyond-artwork-nav-btns" aria-label="Artwork Selector">
+              <button type="button" class="beyond-nav-arrow-btn" id="beyondPrevArtworkBtn" aria-label="Previous Artwork" title="Previous Artwork">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="beyond-nav-arrow-btn" id="beyondNextArtworkBtn" aria-label="Next Artwork" title="Next Artwork">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- INTERPRETATION AREA & PERSPECTIVE CARD -->
+        <div class="beyond-interaction-wrapper">
+          
+          <!-- INPUT SECTION -->
+          <section class="beyond-input-panel" id="beyondInputPanel" aria-label="Your Interpretation Input">
+            <div class="beyond-panel-header-group">
+              <p class="beyond-instruction-text">
+                What do you see beyond the frame?
+              </p>
+            </div>
+            
+            <div class="beyond-textarea-wrapper">
+              <textarea 
+                id="beyondTextarea" 
+                class="beyond-textarea" 
+                placeholder="Describe the painting in your own words..." 
+                aria-label="Describe what you see beyond the frame (maximum 50 words)"
+                rows="6"
+              ></textarea>
+              
+              <div class="beyond-meta-row">
+                <span class="beyond-word-counter" id="beyondWordCounter">0 / 50 words</span>
+                <span class="beyond-feedback-msg" id="beyondFeedbackMsg"></span>
+              </div>
+            </div>
+
+            <button type="button" class="beyond-submit-btn" id="beyondSubmitBtn" aria-label="Submit Interpretation">
+              <span>SUBMIT</span>
+              <span class="beyond-submit-arrow">→</span>
+            </button>
+          </section>
+
+          <!-- AFTER SUBMISSION: PRESENTATION CARD -->
+          <section class="beyond-perspective-card" id="beyondPerspectiveCard" aria-label="Your Submitted Interpretation">
+            <div class="beyond-perspective-header">
+              <h2 class="beyond-perspective-title">YOUR INTERPRETATION</h2>
+            </div>
+            
+            <div class="beyond-perspective-quote-box">
+              <blockquote class="beyond-perspective-text" id="beyondPerspectiveText">
+                <!-- User interpretation displayed verbatim -->
+              </blockquote>
+            </div>
+
+            <div class="beyond-perspective-footer">
+              <button type="button" class="beyond-reset-btn" id="beyondResetBtn" aria-label="Write Again">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+                <span>WRITE AGAIN</span>
+              </button>
+            </div>
+          </section>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Quiz back arrow — outside quiz-view so overflow:hidden cannot clip the fixed element -->
+  <a href="#explore" class="quiz-back-arrow" aria-label="Back to Explore Gallery">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  </a>
+
+  <!-- ==================== ART QUIZ VIEW (20 QUESTIONS) ==================== -->
+  <div id="quiz-view" class="page-view" aria-hidden="true">
+    <div class="quiz-ambient-glow" aria-hidden="true"></div>
+    <div class="quiz-container">
+      
+      <!-- HEADER -->
+      <header class="quiz-header">
+        <h1 class="quiz-title">AVĀRTĀ ART QUIZ</h1>
+        <p class="quiz-tagline">“Test your knowledge across masterpieces, movements, and techniques.”</p>
+      </header>
+
+      <!-- PROGRESS INDICATOR -->
+      <div class="quiz-progress-section" aria-label="Quiz Progress">
+        <div class="quiz-progress-meta">
+          <span id="quizProgressText">QUESTION 1 / 20</span>
+          <span class="quiz-progress-badge">MUSEUM ARCHIVE</span>
+        </div>
+        <div class="quiz-progress-track">
+          <div id="quizProgressFill" class="quiz-progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- MAIN QUESTION STAGE WRAPPER -->
+      <div class="quiz-stage-wrapper">
+        <section class="quiz-stage-card" id="quizStageCard" aria-label="Question Challenge">
+          <div class="quiz-question-header">
+            <span class="quiz-question-category" id="quizQuestionCategory">Art History</span>
+            <h2 class="quiz-question-text" id="quizQuestionText">Loading question...</h2>
+          </div>
+
+          <!-- 4 Multiple Choice Options (A, B, C, D) -->
+          <div class="quiz-options-grid" id="quizOptionsContainer" role="radiogroup" aria-label="Select one answer">
+            <!-- Dynamic 4 options injected -->
+          </div>
+
+          <div class="quiz-feedback-box" id="quizFeedbackBox"></div>
+
+          <!-- Hidden prompt (kept for JS compatibility) -->
+          <span class="quiz-selection-prompt" id="quizSelectionPrompt" style="display:none;">Select an option to proceed</span>
+        </section>
+
+        <!-- NEXT button sits beside the card -->
+        <div class="quiz-next-panel">
+          <button type="button" class="quiz-next-btn" id="quizNextBtn" disabled aria-label="Next Question">
+            <span>NEXT</span>
+            <span class="quiz-btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- QUIZ RESULTS SCREEN -->
+      <section class="quiz-results-card" id="quizResultsCard" aria-label="Quiz Results">
+        <div class="quiz-results-badge">CURATED CHALLENGE</div>
+        <h2 class="quiz-results-title">QUIZ COMPLETE</h2>
+
+        <div class="quiz-score-display">
+          <span class="quiz-score-label">YOUR SCORE</span>
+          <div class="quiz-score-number" id="quizScoreNumber">0 / 20</div>
+          <div class="quiz-score-percent" id="quizScorePercent">0%</div>
+        </div>
+
+        <div class="quiz-metrics-row">
+          <div class="quiz-metric-item">
+            <span class="quiz-metric-num correct" id="quizCorrectCount">0</span>
+            <span class="quiz-metric-label">Correct Answers</span>
+          </div>
+          <div class="quiz-metric-item">
+            <span class="quiz-metric-num incorrect" id="quizIncorrectCount">0</span>
+            <span class="quiz-metric-label">Incorrect Answers</span>
+          </div>
+        </div>
+
+        <blockquote class="quiz-performance-quote" id="quizPerformanceQuote">
+          “Every masterpiece has more to reveal. Explore further.”
+        </blockquote>
+
+        <button type="button" class="quiz-try-again-btn" id="quizTryAgainBtn" aria-label="Play Again">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          <span>PLAY AGAIN</span>
+        </button>
+      </section>
+
+    </div>
+  </div>
+
+<!-- Guess back arrow — outside guess-view so overflow:hidden cannot clip the fixed element -->
+  <a href="#explore" class="guess-back-arrow" aria-label="Back to Explore Gallery">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  </a>
+
+    <!-- ==================== GUESS THE ORIGINAL PAINTING (20 ROUNDS) ==================== -->
+  <div id="guess-view" class="page-view" aria-hidden="true">
+    <div class="guess-ambient-glow" aria-hidden="true"></div>
+    <div class="guess-container">
+      
+      <!-- HEADER -->
+      <header class="guess-header">
+        <h1 class="guess-title">GUESS THE ORIGINAL PAINTING</h1>
+        <h2 class="guess-prompt-text">“WHICH ONE IS THE ORIGINAL?”</h2>
+        <p class="guess-subtitle" id="guessArtworkInfo">Masterpiece vs AI Synthesis</p>
+      </header>
+
+      <!-- PROGRESS INDICATOR -->
+      <div class="guess-progress-section" aria-label="Game Progress">
+        <div class="guess-progress-meta">
+          <span id="guessProgressText">PAINTING 1 / 20</span>
+          <span class="guess-progress-badge">AUTHENTICITY CHALLENGE</span>
+        </div>
+        <div class="guess-progress-track">
+          <div id="guessProgressFill" class="guess-progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- MAIN STAGE (SIDE-BY-SIDE OPTIONS A & B) -->
+      <section class="guess-stage-card" id="guessStageCard" aria-label="Perception Challenge">
+        <div class="guess-pair-grid">
+          
+          <!-- OPTION A -->
+          <div class="guess-choice-card" id="guessCardA" role="button" tabindex="0" aria-label="Select Option A">
+            <div class="guess-choice-header">
+              <span class="guess-option-badge">A</span>
+              <span class="guess-choice-hint">CLICK TO SELECT</span>
+            </div>
+            <div class="guess-img-wrapper">
+              <img src="" alt="Painting Option A" class="guess-artwork-img" id="guessImgA">
+              <span class="guess-identity-badge" id="guessBadgeA">ORIGINAL</span>
+            </div>
+          </div>
+
+          <!-- OPTION B -->
+          <div class="guess-choice-card" id="guessCardB" role="button" tabindex="0" aria-label="Select Option B">
+            <div class="guess-choice-header">
+              <span class="guess-option-badge">B</span>
+              <span class="guess-choice-hint">CLICK TO SELECT</span>
+            </div>
+            <div class="guess-img-wrapper">
+              <img src="" alt="Painting Option B" class="guess-artwork-img" id="guessImgB">
+              <span class="guess-identity-badge" id="guessBadgeB">AI SYNTHESIS</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- FEEDBACK & NEXT ACTION -->
+        <div class="guess-feedback-panel">
+          <div class="guess-feedback-text-group">
+            <span class="guess-feedback-status" id="guessFeedbackStatus">Select Option A or Option B</span>
+            <span class="guess-feedback-detail" id="guessFeedbackDetail">Look closely at the brushwork, light, and composition.</span>
+          </div>
+          <button type="button" class="guess-next-btn" id="guessNextBtn" disabled aria-label="Next Round">
+            <span>NEXT</span>
+            <span class="guess-btn-arrow">→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- RESULTS SCREEN -->
+      <section class="guess-results-card" id="guessResultsCard" aria-label="Game Results">
+        <div class="guess-results-badge">CHALLENGE COMPLETE</div>
+        <h2 class="guess-results-title">PERCEPTION REPORT</h2>
+
+        <div class="guess-score-display">
+          <span class="guess-score-label">YOUR SCORE</span>
+          <div class="guess-score-number" id="guessScoreNumber">0 / 20</div>
+          <div class="guess-score-percent" id="guessScorePercent">0% Accuracy</div>
+        </div>
+
+        <div class="guess-metrics-row">
+          <div class="quiz-metric-item">
+            <span class="guess-metric-num correct" id="guessCorrectCount">0</span>
+            <span class="guess-metric-label">Correct Guesses</span>
+          </div>
+          <div class="quiz-metric-item">
+            <span class="guess-metric-num incorrect" id="guessIncorrectCount">0</span>
+            <span class="guess-metric-label">Incorrect Guesses</span>
+          </div>
+        </div>
+
+        <blockquote class="guess-performance-quote" id="guessPerformanceQuote">
+          “Art and machine synthesis are blurring together. Train your eye further.”
+        </blockquote>
+
+        <button type="button" class="guess-play-again-btn" id="guessPlayAgainBtn" aria-label="Play Again">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          <span>PLAY AGAIN</span>
+        </button>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- Beyond Avarta back arrow — outside view so overflow:hidden cannot clip it -->
+  <a href="#explore" class="beyond-avarta-back-arrow" aria-label="Back to Explore Gallery">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+  </a>
+
+    <!-- ==================== BEYOND AVĀRTĀ (WORLD MUSEUMS & GALLERIES) ==================== -->
+  <div id="beyond-avarta-view" class="page-view" aria-hidden="true">
+    <div class="beyond-avarta-ambient-glow" aria-hidden="true"></div>
+    <div class="beyond-avarta-container">
+      
+      <!-- HEADER -->
+      <header class="beyond-avarta-header">
+        <h1 class="beyond-avarta-title">BEYOND AVĀRTĀ</h1>
+        <p class="beyond-avarta-description">“Continue your journey through the world of art.”</p>
+      </header>
+
+      <!-- MUSEUMS GRID -->
+      <main class="beyond-avarta-grid" id="beyondAvartaGrid" aria-label="Curated Art Museums and Galleries">
+        <!-- Dynamic museum cards rendered by beyond_avarta.js with fallback static cards -->
+        <article class="museum-card museum-card--has-bg" style="--card-bg-image: url('louvre_museum.jpg')">
+          <div class="museum-card-header">
+            <div class="museum-card-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/><path d="M19 21v-7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v7"/>
+              </svg>
+            </div>
+            <span class="museum-region-tag">Europe</span>
+          </div>
+          <div class="museum-card-main">
+            <h2 class="museum-name">Louvre Museum</h2>
+            <div class="museum-location">
+              <svg class="museum-location-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Paris, France</span>
+            </div>
+            <p class="museum-short-desc">The world's most visited art museum, home to the Mona Lisa, Venus de Milo, and Winged Victory of Samothrace.</p>
+          </div>
+          <div class="museum-card-footer">
+            <a href="https://www.louvre.fr/en" target="_blank" rel="noopener noreferrer" class="museum-website-btn" aria-label="Visit official website of Louvre Museum">
+              <span>VISIT WEBSITE</span>
+              <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      </main>
+
+    </div>
+  </div>
+
+  <script src="fluid_three.js?v=temple_sanctuary_v1"></script>
+  <script src="gallery_corridor.js?v=cursor_spotlight"></script>
+  <script src="about_cards.js?v=what_is_avarta"></script>
+  <script src="vertical_gallery/vertical_gallery.js?v=clean_options_v1"></script>
+  <script src="detail_view/detail_view.js?v=dock_toggles_v9"></script>
+  <script src="beyond_the_frame.js?v=beyond_v1"></script>
+  <script src="quiz.js?v=quiz_v1"></script>
+  <script src="guess_painting.js?v=guess_v1"></script>
+  <script src="beyond_avarta.js?v=beyond_avarta_v1"></script>
+  <script src="explore_page.js?v=explore_v1"></script>
+  <script src="router.js?v=dock_toggles_v9"></script>
+  <script src="components/dock.js?v=dock_toggles_v9"></script>
+  <!-- Cinematic peephole intro — defers until eye-intro-done event -->
+  <script src="intro.js?v=peephole_v2"></script>
+</body>
+</html>

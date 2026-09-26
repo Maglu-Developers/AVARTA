@@ -1,0 +1,360 @@
+/* ==========================================================================
+   AVĀRTĀ — CINEMATIC LUXURY REVEAL SEQUENCE
+   Theme: Heavy Red Velvet Theater Curtains → Direct In-Place Reveal of AVĀRTĀ Hero Title & Gallery Hallway
+   ========================================================================== */
+
+#avarta-intro {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  perspective: 1000px;
+}
+
+#avarta-intro.intro-done {
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Canvas overlay for dust motes in spotlight beam & subtle film grain */
+#intro-fx-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 25;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   HEAVY RED VELVET THEATER CURTAIN STAGE
+   ========================================================================== */
+.intro-curtain-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transform: scale(1);
+  will-change: transform, opacity;
+  transition: transform 2.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
+}
+
+.intro-curtain-stage.push-in {
+  transform: scale(1.08);
+}
+
+.curtain-backdrop {
+  position: absolute;
+  inset: 0;
+  background: #030303;
+  z-index: 5;
+  will-change: opacity;
+  transition: opacity 1.8s cubic-bezier(0.65, 0, 0.15, 1);
+}
+
+.curtain-stage-open .curtain-backdrop {
+  opacity: 0;
+}
+
+.intro-curtain-stage.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Overhead Warm Spotlight Beam */
+.curtain-spotlight {
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70vw;
+  height: 120vh;
+  background: radial-gradient(
+    ellipse at top,
+    rgba(255, 218, 140, 0.45) 0%,
+    rgba(229, 193, 88, 0.2) 30%,
+    rgba(160, 110, 30, 0.05) 60%,
+    transparent 85%
+  );
+  pointer-events: none;
+  z-index: 15;
+  mix-blend-mode: screen;
+  filter: blur(15px);
+  transition: opacity 1.5s ease;
+}
+
+.curtain-stage-open .curtain-spotlight {
+  opacity: 0.3;
+}
+
+/* Curtain Panels */
+.curtain-panel {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 52%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 10;
+  will-change: transform;
+  transition: transform 2.6s cubic-bezier(0.65, 0, 0.15, 1);
+}
+
+.curtain-panel-left {
+  left: 0;
+  transform-origin: left center;
+  box-shadow: 20px 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.curtain-panel-right {
+  right: 0;
+  transform-origin: right center;
+  box-shadow: -20px 0 50px rgba(0, 0, 0, 0.9);
+}
+
+.curtain-stage-open .curtain-panel-left {
+  transform: translateX(-102%) skewY(-1deg);
+}
+
+.curtain-stage-open .curtain-panel-right {
+  transform: translateX(102%) skewY(1deg);
+}
+
+.curtain-texture {
+  position: absolute;
+  inset: -2% -10%;
+  width: 120%;
+  height: 104%;
+  background: url('assets/red_velvet_curtain.jpg') center center / cover no-repeat;
+  filter: brightness(0.9) contrast(1.15) saturate(1.2);
+}
+
+.curtain-panel-left .curtain-texture {
+  background-position: left center;
+}
+
+.curtain-panel-right .curtain-texture {
+  background-position: right center;
+}
+
+.curtain-fold-overlay {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6) 0px,
+    transparent 20px,
+    rgba(255, 180, 100, 0.08) 40px,
+    rgba(0, 0, 0, 0.7) 60px
+  );
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* Top Velvet Valance */
+.curtain-valance {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12vh;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(40, 5, 10, 0.8) 70%, transparent 100%);
+  z-index: 14;
+  pointer-events: none;
+}
+
+/* Film Grain Overlay */
+.intro-film-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.04;
+  background-image: repeating-radial-gradient(circle at 50% 50%, #fff 0, #000 2px, transparent 4px);
+  background-size: 4px 4px;
+}
+
+/* ==========================================================================
+   HERO WORDMARK & IN-PLACE LETTER MATERIALIZATION
+   ========================================================================== */
+.hero-wordmark {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.05em, 0.8vw, 0.25em);
+  font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif;
+  font-size: clamp(3.5rem, 8.5vw, 8rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #FAFAFA;
+  line-height: 1;
+  padding: 10px 0;
+}
+
+.letter-wrap {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Initial letter state during intro */
+body.intro-active .letter {
+  opacity: 0;
+  filter: blur(25px);
+  transform: scale(0.92) translateY(6px);
+  will-change: opacity, filter, transform;
+}
+
+.letter {
+  display: inline-block;
+  opacity: 1;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFF3DB 30%, #E9CC88 65%, #D4A74F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 25px rgba(255, 220, 130, 0.75)) drop-shadow(0 0 50px rgba(229, 193, 88, 0.45)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.8));
+  transform: scale(1) translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.letter-wrap.visible .letter {
+  opacity: 1 !important;
+  transform: scale(1) translateY(0) !important;
+  filter: drop-shadow(0 0 25px rgba(255, 220, 130, 0.75)) drop-shadow(0 0 50px rgba(229, 193, 88, 0.45)) drop-shadow(0 4px 20px rgba(0, 0, 0, 0.8)) !important;
+}
+
+/* Thin horizontal accent line above A's */
+.accent-line {
+  position: absolute;
+  top: -14px;
+  left: 12%;
+  right: 12%;
+  height: 2.5px;
+  background: linear-gradient(90deg, transparent, #ffe7a0, #e5c158, #ffe7a0, transparent);
+  box-shadow: 0 0 10px rgba(255, 231, 160, 0.9), 0 0 20px rgba(229, 193, 88, 0.6);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: opacity 0.6s ease 0.4s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.4s;
+}
+
+.letter-wrap.has-accent.visible .accent-line,
+body:not(.intro-active) .letter-wrap.has-accent .accent-line {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* Hero Tagline Below AVĀRTĀ */
+.hero-tagline {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(0.95rem, 1.8vw, 1.45rem);
+  font-weight: 500;
+  font-style: italic;
+  color: rgba(235, 215, 170, 0.88);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  margin-top: -6px;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.9), 0 0 20px rgba(229, 193, 88, 0.3);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.intro-active .hero-tagline {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.intro-active .hero-tagline.visible,
+.hero-tagline.visible,
+body:not(.intro-active) .hero-tagline {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Hero CTA Button Fade In */
+body.intro-active .hero-cta {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.intro-active .hero-cta.visible,
+.hero-cta.visible,
+body:not(.intro-active) .hero-cta {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Navbar Fade In */
+body.intro-active #site-navbar {
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+body.intro-navbar-visible #site-navbar,
+body:not(.intro-active) #site-navbar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   SKIP BUTTON (Glassmorphism Luxury)
+   ========================================================================== */
+.intro-skip-btn {
+  position: absolute;
+  bottom: 32px;
+  right: 36px;
+  z-index: 100;
+  background: rgba(15, 15, 15, 0.45);
+  border: 1px solid rgba(229, 193, 88, 0.35);
+  color: rgba(255, 235, 190, 0.85);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 9999px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease 0.6s, transform 0.5s ease 0.6s, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.intro-skip-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-skip-btn:hover {
+  background: rgba(229, 193, 88, 0.2);
+  border-color: rgba(255, 220, 130, 0.8);
+  color: #ffffff;
+  box-shadow: 0 0 25px rgba(229, 193, 88, 0.4);
+}
+
+body.intro-active {
+  overflow: hidden !important;
+}
